@@ -9,14 +9,20 @@ public class PayBean {
 	// Bean 클래스라면 멤버필드 + 멤버메소드
 	
 	private String name; // 멤버필드 변수(멤변)는 초기화를 하지 않는다!!!
-	private int salary, tax, money;
+	private int salary;
 	
 	// 멤버 메소드 영역이 시작
 	public void setName(String name) {
 		this.name = name;
 	}
+	public String getName() {
+		return name;
+	}
 	public void setSalary(int salary) {
 		this.salary = salary;
+	}
+	public int getSalary() {
+		return salary;
 	}
 	public int getTax() {
 		int tax=0; // 지변은 초기화 필수!!
