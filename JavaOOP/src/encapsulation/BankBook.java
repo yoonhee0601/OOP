@@ -36,7 +36,7 @@ public class BankBook implements Account{
 	// BankBook.bank --> 클래스변수 호출하는 모양
 	// 위치 : 필드 ==> (인변, 상수, 클래스변수) < 멤변
 /*===== 필드 =====*/
-	private static String BANK;
+	public static String BANK;
 	private int bankBook, money, pass;
 	private String name, msg; 
 	// msg 유효성처리 결과를 알려줘서 고객이 만약

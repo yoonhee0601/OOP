@@ -1,6 +1,6 @@
 package abstraction;
 /*
- @Date:2015.07.1
+ @Date:2015.07.18
  @Author:me
  @Story: 인터페이스를 통한 추상화 구현
  * */
