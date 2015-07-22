@@ -23,6 +23,6 @@ public class BasicBot implements Robot{
 	@Override
 	public void status() {
 		System.out.print("속도는 "+this.speed+", 에너지는 "+this.speed);
-
+		// this. 은 내부에서만 알려줘도 될때, get 은 외부에 알려줄 때
 	}
 }

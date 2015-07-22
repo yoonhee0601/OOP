@@ -5,21 +5,12 @@ public class ShieldRobot extends BasicBot {
 	public static String NAME = "쉴드로봇";
 	
 	
-	@Override
-	public void charge(int energy) {
-		// TODO Auto-generated method stub
-		super.charge(energy);
-	}
-	@Override
-	public void run(int speed) {
-		// TODO Auto-generated method stub
-		super.run(speed);
-	}
+	
 	
 	public int getShieldPoint() {
 		return ShieldPoint;
 	}
-	public void setShieldPoint(int ShieldPoint) {
+	public void Shield(int ShieldPoint) {
 		this.ShieldPoint = ShieldPoint;
 	}
 	@Override

@@ -33,9 +33,17 @@ public class RobotMain {
 		System.out.println("에너지를 입력하시오");
 		shieldRobot.charge(scanner.nextInt());
 		System.out.println("방어력을 입력하시오");
-		shieldRobot.setShieldPoint(scanner.nextInt());
+		shieldRobot.Shield(scanner.nextInt());
 		
 		gunRobot.status();
 		shieldRobot.status();
+		
+		Robot[] robots = new Robot[2];
+		robots[0] = gunRobot;
+		robots[1] = shieldRobot;
+		// 확장된 for 문 
+		for (Robot robot : robots) {
+			robot.status();
+		}
 	}
 }
