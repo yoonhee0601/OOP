@@ -55,9 +55,8 @@ public class Bank implements BankRole {
 		bankBook.setPass(password);
 		bankBook.deposit(restMoney);
 		// 통장을 개설하자마자 은행전산 DB 에 통장정보 저장 개념
-		BankBookList[count] = (BankBook) bankBook;
-		this.count++; // 전체 은행에 개설된 통장 갯수 1 증가
-		System.out.println(((BankRole) bankBook).showAccount());
+		BankBookList[count] = (BankBook) bankBook;		this.count++; // 전체 은행에 개설된 통장 갯수 1 증가
+		this.count++;
 	}
 	
 
@@ -73,7 +72,8 @@ public class Bank implements BankRole {
 			 숫자타입(int) 서로 같은지 여부 ==
 			 * */
 			if (BankBookList[i].getBankBookNo() == searchAcccountNo) {
-				account = (BankBook) BankBookList[i];
+				account = BankBookList[i];
+				
 			}
 		}
 		return account;
@@ -81,19 +81,28 @@ public class Bank implements BankRole {
 	// 계좌검색 (이름) -> 리턴결과 : 계좌 여러개
 	@Override
 	public BankBook[] searchAccountByName(String ownerName) {
-		BankBook[] accounts = null;
+		
 		// serchAccountByName() 이 메서드를 호출하면
 		// 자동으로 serchCountByName()을 먼저 호출하라
-		int count = this.searchCountByName(ownerName);
-		if (count == 0) { // 조합하는 사람의 통장이 하나도 없다면
+		int tempcount = this.searchCountByName(ownerName);
+		if (tempcount==0) {
 			return null;
 		}
-		for (int i = 0; i < count; i++) {
-			if (BankBookList[i].equals(ownerName)) {
-				accounts[count] = BankBookList[i];
-				count++;		
+		// 위처럼 필터링을 하는 이유는 본 알고리즘을 타기 전에
+		// 필요없는 상태라면 알고리즘을 호출하지 않기 위해서다.
+		// 그렇지 않으면 자원(리소스 : 메모리, DB)의 낭비를 초래한다.
+		BankBook[] accounts = new BankBook[tempcount];
+		tempcount = 0; // 0으로 초기화 시켜서 배열의 인덱스로
+						//사용해야 함
+		if (tempcount != 0) { 
+			for (int i = 0; i < accounts.length; i++) {
+				if (BankBookList[i].getName().equals(ownerName)) {
+					accounts[tempcount] = BankBookList[i];
+					tempcount++;		
+				}
 			}
 		}
+		
 		return accounts;
 	}
 	// 계좌검색(이름) -> 리턴결과 : 숫자
@@ -116,12 +125,18 @@ public class Bank implements BankRole {
 	public boolean closeAccount(String accountNo) {
 		// flag 은 삭제가 성공적으로 이뤄지면 true 를 리턴하고
 		// 삭제할 게 없으면 false 리턴
-		boolean flag = false;
+		boolean closeOk = false;
 		// String(문자열) 로 들어온 값을 숫자로 바꿔서 비교
+		BankBook bankBook = this.serchAccountByAccountNo(accountNo);
+		// 필터링에서는 if-else 구문을 사용하지 않고 if 문을 사용한다.
+		if (bankBook == null) {
+			System.out.println("해당 계좌가 존재하지 않습니다.");
+			return closeOk;
+		}
 		int serchAccountNo = Integer.parseInt(accountNo);
 		for (int i = 0; i < this.count; i++) {
 			if (BankBookList[i].getBankBookNo()==serchAccountNo) {
-				flag = true;
+				
 			/*
 			 j = i 로 바꾼 이유는
 			 홍길동의 계좌가 은행 전체계좌의 50번째 라면..
@@ -137,14 +152,12 @@ public class Bank implements BankRole {
 					BankBookList[i] = BankBookList[j+1];
 				}
 				count--;
+				// 위 알고리즘을 거친 후에야 계좌 삭제가 일어났다고 본다.
+				closeOk = true;
 			}
 		}
-		if (flag) {
-			
-		} else {
-
-		}
-		return flag;
+		
+		return closeOk;
 	}
 	@Override
 	public String showAccount() {
